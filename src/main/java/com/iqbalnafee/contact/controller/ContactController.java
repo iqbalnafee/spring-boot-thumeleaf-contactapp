@@ -38,12 +38,12 @@ public class ContactController {
 
     @GetMapping(value = "/contacts")
     public String getContacts(Model model,
-                              @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+                              @RequestParam(name = "page", defaultValue = "1") int pageNumber) {
 
         List<Contact> contacts = contactService.findAll(pageNumber, ROW_PER_PAGE);
         long count = contactService.count();
         boolean hasPrev = pageNumber > 1;
-        boolean hasNext = (pageNumber * count) < count;
+        boolean hasNext = (pageNumber * ROW_PER_PAGE) < count;
         model.addAttribute("contacts", contacts);
         model.addAttribute("hasPrev", hasPrev);
         model.addAttribute("prev", pageNumber - 1);
