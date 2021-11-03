@@ -4,6 +4,7 @@ h1, h2 {
 
 a {
     color: #ff4f57;
+    text-decoration: none;
 }
 
 table {
@@ -12,9 +13,17 @@ table {
 
 table th, table td {
     padding: 5px;
+    width: 50vh;
+    height: 10vh;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+
+
 }
 
 .error {
     color: red;
     font-style: italic;
 }
+

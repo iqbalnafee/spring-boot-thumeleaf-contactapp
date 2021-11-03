@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
 
-</body>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Contact List</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+
+    <body>
+
+        <h1>Contact List</h1>
+        <div>
+            <nobr>
+                <a th:href="@{/contacts/add}">Add Contact</a>
+                <a th:href="@{/}">Back to Index</a>
+            </nobr>
+        </div>
+        <br><br>
+
+        <div>
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                </tr>
+                <tr th:each="contact:${contacts}" >
+                    
+                    <td><a th:href="@{/contacts/{contactId}(contactId=${contact.id})}" th:utext="${contact.id}"></a></td>
+                    <td><a th:href="@{/contacts/{contactId}(contactId=${contact.id})}" th:utext="${contact.name}" style="cursor: pointer;"></a></td>
+                    <td th:utext="${contact.phone}"></td>
+                    <td th:utext="${contact.email}"></td>
+                    <td><a th:href="@{/contacts/{contactId}/edit(contactId=${contact.id})}">Edit</a></td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
+
+
 </html>

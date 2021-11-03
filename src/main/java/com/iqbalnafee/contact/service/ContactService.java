@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +35,10 @@ public class ContactService {
     public List<Contact> findAll(int pageNumber, int rowPerPage){
 
         List<Contact> contacts = new ArrayList<>();
-        Pageable sortedByIdAsc = (Pageable) PageRequest.of(pageNumber-1,rowPerPage, Sort.by("id").ascending());
+        PageRequest sortedByIdAsc = PageRequest.of(pageNumber - 1, rowPerPage,
+                Sort.by("id").ascending());
         //contactRepository.findAll().forEach(contact -> contacts.add(contact));
-        contactRepository.findAll((org.springframework.data.domain.Pageable) sortedByIdAsc).forEach(contacts::add);
+        contactRepository.findAll(sortedByIdAsc).forEach(contacts::add);
         return contacts;
 
     }
