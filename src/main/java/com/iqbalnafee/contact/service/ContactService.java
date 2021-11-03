@@ -1,6 +1,7 @@
 package com.iqbalnafee.contact.service;
-
 import com.iqbalnafee.contact.domain.Contact;
+import com.iqbalnafee.contact.exception.BadResourceException;
+import com.iqbalnafee.contact.exception.ResourceAlreadyExistsException;
 import com.iqbalnafee.contact.exception.ResourceNotFoundException;
 import com.iqbalnafee.contact.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,49 @@ public class ContactService {
         contactRepository.findAll((org.springframework.data.domain.Pageable) sortedByIdAsc).forEach(contacts::add);
         return contacts;
 
+    }
+
+    public Contact save(Contact contact) throws ResourceAlreadyExistsException, BadResourceException {
+        if (contact.getName() != null) {
+            if (contact.getId() != null && existsById(contact.getId())) {
+                throw new ResourceAlreadyExistsException("Contact with id: " + contact.getId() +
+                        " already exists");
+            }
+            return contactRepository.save(contact);
+        }
+        else {
+            BadResourceException exc = new BadResourceException("Failed to save contact");
+            exc.addErrorMessage("Contact is null or empty");
+            throw exc;
+        }
+    }
+
+    public void update(Contact contact)
+            throws BadResourceException, ResourceNotFoundException {
+        if (contact.getName() != null) {
+            if (!existsById(contact.getId())) {
+                throw new ResourceNotFoundException("Cannot find Contact with id: " + contact.getId());
+            }
+            contactRepository.save(contact);
+        }
+        else {
+            BadResourceException exc = new BadResourceException("Failed to save contact");
+            exc.addErrorMessage("Contact is null or empty");
+            throw exc;
+        }
+    }
+
+    public void deleteById(Long id) throws ResourceNotFoundException {
+        if (!existsById(id)) {
+            throw new ResourceNotFoundException("Cannot find contact with id: " + id);
+        }
+        else {
+            contactRepository.deleteById(id);
+        }
+    }
+
+    public Long count() {
+        return contactRepository.count();
     }
 
 }

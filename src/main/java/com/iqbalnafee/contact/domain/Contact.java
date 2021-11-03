@@ -1,13 +1,12 @@
 package com.iqbalnafee.contact.domain;
 
-import com.sun.istack.NotNull;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+
+
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.validation.annotation.Validated;
-
-
 import javax.persistence.*;
 
 @Validated
@@ -25,7 +24,7 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String name;
     private String phone;
     private String email;
     private String address1;
@@ -35,4 +34,9 @@ public class Contact {
 
     @Column(length = 4000)
     private String note;
+    
+
+
+
+
 }
