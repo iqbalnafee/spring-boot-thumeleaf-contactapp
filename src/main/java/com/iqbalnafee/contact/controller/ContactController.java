@@ -126,5 +126,39 @@ public class ContactController {
         return "contact";
     }
 
+    @GetMapping(value ={"/contacts/{contactId}/delete"})
+    public String showDeleteContactById(Model model,
+                                        @PathVariable long contactId){
+
+        Contact contact = null;
+        try {
+            contact = contactService.findById(contactId);
+            model.addAttribute("contact",contact);
+            model.addAttribute("allowDelete",true);
+        }
+        catch (ResourceNotFoundException exception){
+            model.addAttribute("errorMessage","Contact not found");
+        }
+        return "contact";
+
+    }
+
+    @PostMapping(value = {"/contacts/{contactId}/delete"})
+    public String deleteContactById(Model model,
+                                   @PathVariable long contactId){
+
+        try{
+            contactService.deleteById(contactId);
+            return "redirect:/contacts";
+        }
+        catch (ResourceNotFoundException exception){
+            String errorMessage = exception.getMessage();
+            logger.error(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+            return "contact";
+        }
+
+    }
+
 
 }

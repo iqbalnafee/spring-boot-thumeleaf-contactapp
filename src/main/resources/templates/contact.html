@@ -15,7 +15,7 @@
                 <tr>
                     <td>ID</td>
                     <td>:</td>
-                    <td th:utext="contact.id"></td>
+                    <td th:utext="${contact.id}"></td>
                 </tr>
                 <tr>
                     <td>Name</td>
@@ -64,9 +64,9 @@
                 <a th:href="@{/contacts/{contactId}/delete(contactId=${contact.id})}">Delete</a>
             </div>
 
-            <form th:if="${allowDelete}" th:action="@{/contatcts/{contactId}/delete(contactId=${contact.id})}" method="post">
+            <form th:if="${allowDelete}" th:action="@{/contacts/{contactId}/delete(contactId=${contact.id})}" method="POST">
 
-                Delete this contact? <input type="submit" th:value="yes" style="background-color: red"/>
+                <div>Delete this contact? <input type="submit" th:value="yes" style="background-color: red"/></div>
 
             </form>
 
