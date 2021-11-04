@@ -8,8 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,6 +49,66 @@ public class ContactController {
         model.addAttribute("hasNext", hasNext);
         model.addAttribute("next", pageNumber + 1);
         return "contact-list";
+    }
+
+    @GetMapping(value = {"/contacts/add"})
+    public String showAddContact(Model model) {
+        Contact contact = new Contact();
+        model.addAttribute("add", true);
+        model.addAttribute("contact", contact);
+        return "contact-edit";
+    }
+
+    @PostMapping(value = "/contacts/add")
+    public String addContact(Model model,
+                             @ModelAttribute("contact") Contact contact) {
+
+        try {
+            Contact newContact = contactService.save(contact);
+            return "redirect:/contacts/" + newContact.getId();
+        } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+            logger.error(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+            model.addAttribute("add", true);
+            return "contact-edit";
+        }
+
+    }
+
+    @GetMapping(value = {"/contacts/{contactId}/edit"})
+    public String showEditContact(Model model, @PathVariable long contactId) {
+        Contact contact = null;
+        try {
+            contact = contactService.findById(contactId);
+        } catch (Exception ex) {
+            model.addAttribute("errorMessage", "Contact not found");
+        }
+        model.addAttribute("add", false);
+        model.addAttribute("contact", contact);
+        return "contact-edit";
+    }
+
+    @PostMapping(value = {"/contacts/{contactId}/edit"})
+    public String updateContact(Model model,
+                                @PathVariable long contactId,
+                                @ModelAttribute("contact") Contact contact){
+
+
+        try{
+            contact.setId(contactId);
+            contactService.update(contact);
+            return "redirect:/contacts/"+contact.getId();
+        }
+        catch (Exception ex){
+            String errorMessage = ex.getMessage();
+            logger.error(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+            model.addAttribute("add",false);
+            return "contact-edit";
+        }
+
+
     }
 
 
