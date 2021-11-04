@@ -31,7 +31,8 @@
                     
                     <td><a th:href="@{/contacts/{contactId}(contactId=${contact.id})}" th:utext="${contact.id}"></a></td>
                     <td><a th:href="@{/contacts/{contactId}(contactId=${contact.id})}" th:utext="${contact.name}" style="cursor: pointer;"></a></td>
-                    <td th:utext="${contact.phone}"></td>
+<!--                    <td th:utext="${contact.phone}"></td>-->
+                    <td>[[${contact.phone}]]</td>
                     <td th:utext="${contact.email}"></td>
                     <td><a th:href="@{/contacts/{contactId}/edit(contactId=${contact.id})}">Edit</a></td>
                 </tr>
