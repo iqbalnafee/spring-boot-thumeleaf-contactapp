@@ -1,6 +1,7 @@
 package com.iqbalnafee.contact.controller;
 
 import com.iqbalnafee.contact.domain.Contact;
+import com.iqbalnafee.contact.exception.ResourceNotFoundException;
 import com.iqbalnafee.contact.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -109,6 +110,20 @@ public class ContactController {
         }
 
 
+    }
+
+    @GetMapping(value = {"/contacts/{contactId}"})
+    public String getContactById(Model model,
+                                 @PathVariable long contactId){
+
+        try{
+            Contact contact = contactService.findById(contactId);
+            model.addAttribute("contact",contact);
+        }
+        catch (ResourceNotFoundException exception){
+            model.addAttribute("errorMessage","Contact not found");
+        }
+        return "contact";
     }
 
 
