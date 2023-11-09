@@ -1,0 +1,38 @@
+app:
+  development: true
+  default-password : 1234
+  tokentimeout: 10
+  htmltopdf:
+    html2pdfPath: /api/html2pdf
+  server:
+    host: localhost
+    port: 8085
+spring:
+  rabbitmq:
+    host: 119.148.4.26
+    port: 5672
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      event:
+        merge:
+          entity_copy_observer: allow
+    generate-ddl: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: 12345678
+    url: jdbc:mysql://localhost:8088/nbr
+    username: root
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+
